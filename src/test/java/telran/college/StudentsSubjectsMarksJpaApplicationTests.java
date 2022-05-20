@@ -42,9 +42,15 @@ class StudentsSubjectsMarksJpaApplicationTests {
 	void getStudentsSubjectMarks() {
 		//test of the method getStudentsSubjectMark
 		//TODO 
-		List<String> expexted = Arrays.asList("student5", "student7");
+		List<String> expected = Arrays.asList("student5", "student7");
 		List<String> actual = collegeService.getStudentsSubjectMark("subject4", 60);
-		assertIterableEquals(expexted, actual);
+		assertIterableEquals(expected, actual);
+		expected = Collections.<String>emptyList();
+		actual = collegeService.getStudentsSubjectMark("subject6", 50);
+		assertIterableEquals(expected, actual);
+		expected = Arrays.asList("student1");
+		actual = collegeService.getStudentsSubjectMark("subject1", 70);
+		assertIterableEquals(expected, actual);
 	}
 
 }

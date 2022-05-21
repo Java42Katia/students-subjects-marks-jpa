@@ -105,8 +105,7 @@ public class CollegeServiceImpl implements CollegeService {
 		// TODO Auto-generated method stub
 		return marksRepository.findBySubjectSubjectNameAndMarkGreaterThanEqual(subjectName, mark)
 				.stream()
-				.map(MarkEntity::getStudent)
-				.map(StudentEntity::getName)
+				.map(m -> m.getStudent().getName())		
 				.distinct()
 				.toList();
 	}

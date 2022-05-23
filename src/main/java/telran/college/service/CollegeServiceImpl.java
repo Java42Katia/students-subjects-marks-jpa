@@ -121,11 +121,7 @@ public class CollegeServiceImpl implements CollegeService {
 	@Override
 	public List<Subject> subjectsAvgMarkGreater(int avgMark) {
 		// TODO Auto-generated method stub
-		return marksRepository.findBySubjectSubjectNameAndMarkGreaterThanEqual(subjectName, mark)
-				.stream()
-				.map(m -> m.getStudent().getName())		
-				.distinct()
-				.toList();
+		return null;
 	}
 
 }

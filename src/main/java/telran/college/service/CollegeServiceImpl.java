@@ -9,6 +9,7 @@ import telran.college.dto.*;
 import telran.college.entities.MarkEntity;
 import telran.college.entities.StudentEntity;
 import telran.college.entities.SubjectEntity;
+import telran.college.entities.projection.*;
 import telran.college.repo.*;
 @Service
 public class CollegeServiceImpl implements CollegeService {
@@ -65,16 +66,18 @@ public class CollegeServiceImpl implements CollegeService {
 
 	@Override
 	public List<Integer> getStudentMarksSubject(String name, String subjectName) {
-		List<MarkEntity> markEntities =
+		List<MarkProj> markEntities =
 				marksRepository.findByStudentNameAndSubjectSubjectName(name, subjectName);
-		return markEntities.stream().map(MarkEntity::getMark).toList();
+		return markEntities.stream().map(MarkProj::getMark).toList();
 	}
 
 	@Override
 	public List<Student> goodCollegeStudents() {
-		// TODO Auto-generated method stub not now
-		return null;
+		
+		return marksRepository.findGoodStudents().stream().map(sp -> new Student(sp.getId(),
+				sp.getName())).toList();
 	}
+	
 
 	@Override
 	public List<Student> bestStudents(int nStudents) {
@@ -90,18 +93,33 @@ public class CollegeServiceImpl implements CollegeService {
 
 	@Override
 	public Subject subjectGreatestAvgMark() {
-		// TODO Auto-generated method stub not now
+		// TODO not now 
 		return null;
 	}
 
 	@Override
+	@Transactional
 	public void deleteStudentsAvgMarkLess(int avgMark) {
-		// TODO Auto-generated method stub not now
+		List<StudentEntity> studentsForDelete = studentsRepository.getStudentsAvgMarkLess((double)avgMark);
+		studentsForDelete.forEach(studentsRepository::delete);
 
 	}
 
 	@Override
 	public List<String> getStudentsSubjectMark(String subjectName, int mark) {
+		
+		return marksRepository.findDistinctBySubjectSubjectNameAndMarkGreaterThanEqual(subjectName, mark)
+				.stream().map(StudentNameProj::getStudentName).toList();
+	}
+
+	@Override
+	public List<Student> deleteStudentsMarksCountLess(int count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Subject> subjectsAvgMarkGreater(int avgMark) {
 		// TODO Auto-generated method stub
 		return marksRepository.findBySubjectSubjectNameAndMarkGreaterThanEqual(subjectName, mark)
 				.stream()

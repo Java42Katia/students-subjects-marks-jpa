@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import telran.college.dto.Mark;
+import telran.college.dto.Student;
 import telran.college.service.CollegeService;
 
 @SpringBootTest
@@ -24,6 +25,9 @@ class StudentsSubjectsMarksJpaApplicationTests {
 		collegeService.addMark(new Mark(1, 1, 70));
 		collegeService.addMark(new Mark(1, 1, 80));
 		collegeService.addMark(new Mark(1, 1, 90));
+		collegeService.addMark(new Mark(2, 1, 70));
+		collegeService.addMark(new Mark(2, 1, 80));
+		collegeService.addMark(new Mark(3, 1, 60));
 		//TODO add additional marks
 		collegeService.addMark(new Mark(2, 1, 50));
 		collegeService.addMark(new Mark(3, 2, 70));
@@ -33,24 +37,33 @@ class StudentsSubjectsMarksJpaApplicationTests {
 		collegeService.addMark(new Mark(10, 5,71));
 	}
 	@Test
+	@Order(2)
 	void getMarksStudentSubjectTest() {
 		List<Integer> expected = Arrays.asList(70, 80, 90);
 		List<Integer> actual = collegeService.getStudentMarksSubject("student1", "subject1");
 		assertIterableEquals(expected, actual);
 	}
 	@Test
+	@Order(3)
 	void getStudentsSubjectMarks() {
-		//test of the method getStudentsSubjectMark
-		//TODO 
-		List<String> expected = Arrays.asList("student5", "student7");
-		List<String> actual = collegeService.getStudentsSubjectMark("subject4", 60);
-		assertIterableEquals(expected, actual);
-		expected = Collections.<String>emptyList();
-		actual = collegeService.getStudentsSubjectMark("subject6", 50);
-		assertIterableEquals(expected, actual);
-		expected = Arrays.asList("student1");
-		actual = collegeService.getStudentsSubjectMark("subject1", 70);
+		List<String> expected = Arrays.asList("student1", "student2");
+		List<String> actual = collegeService.getStudentsSubjectMark("subject1", 70);
 		assertIterableEquals(expected, actual);
 	}
+	@Test
+	@Order(4)
+	void getGoodStudents() {
+		List<Student> expected = Arrays.asList(new Student(1, "student1"), new Student(2, "student2"));
+		List<Student> actual = collegeService.goodCollegeStudents();
+		assertIterableEquals(expected, actual);
+	}
+	@Test
+	@Order(5)
+	void deleteStudents() {
+		collegeService.deleteStudentsAvgMarkLess(70);
+		List<String> actual = collegeService.getStudentsSubjectMark("subject1", 30);
+		assertEquals(2, actual.size());	
+	}
+	
 
 }

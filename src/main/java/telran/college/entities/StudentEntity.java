@@ -1,5 +1,7 @@
 package telran.college.entities;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,8 @@ public class StudentEntity {
 	public long getId() {
 		return id;
 	}
+	@OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
+	List<MarkEntity> marks;
 	public String getName() {
 		return name;
 	}

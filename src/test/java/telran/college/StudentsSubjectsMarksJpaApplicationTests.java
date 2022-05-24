@@ -86,6 +86,11 @@ class StudentsSubjectsMarksJpaApplicationTests {
 		actual = collegeService.subjectsAvgMarkGreater(90);
 		assertTrue(actual.stream().anyMatch(s -> s.subjectName.equals("subject4")));
 		assertEquals(2, actual.size());
+		/* V.R.
+		 * You cannot use asserts like assertIterableEquals(expected, actual)
+		 * because your implementation of class Subject hasn't method equals.
+		 * Like class Student. This implementation will do test more simple. 
+		 */
 	}
 	
 	@Test

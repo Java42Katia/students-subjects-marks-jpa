@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import telran.college.entities.MarkEntity;
-import telran.college.entities.StudentEntity;
-import telran.college.entities.projection.*;
+import telran.college.entities.projection.MarkProj;
+import telran.college.entities.projection.StudentNameProj;
+import telran.college.entities.projection.StudentProj;
 
 public interface MarkRepository extends JpaRepository<MarkEntity, Long> {
 //	@Query("select m.mark as mark from MarkEntity m where m.student.name = ?1"
@@ -22,4 +23,7 @@ List<StudentNameProj> findDistinctBySubjectSubjectNameAndMarkGreaterThanEqual(St
  		+ "group by m.student.id, m.student.name having avg(m.mark) >= "
  		+ "(select avg(m1.mark) from MarkEntity m1)")
  List<StudentProj> findGoodStudents() ;
+
+ 
+ 
 }

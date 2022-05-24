@@ -114,14 +114,14 @@ public class CollegeServiceImpl implements CollegeService {
 
 	@Override
 	public List<Student> deleteStudentsMarksCountLess(int count) {
-		// TODO Auto-generated method stub
-		return null;
+		List<StudentEntity> studentsForDelete = studentsRepository.getStudentsMarksCountLess(count);
+		studentsForDelete.forEach(studentsRepository::delete);
+		return studentsForDelete.stream().map(s -> new Student(s.getId(), s.getName())).toList();
 	}
 
 	@Override
 	public List<Subject> subjectsAvgMarkGreater(int avgMark) {
-		// TODO Auto-generated method stub
-		return null;
+		return subjectsRepository.findSubjectsHavingAvgMarkGreater(avgMark).stream().map(s -> new Subject(s.getId(), s.getSubjectName())).toList();
 	}
 
 }

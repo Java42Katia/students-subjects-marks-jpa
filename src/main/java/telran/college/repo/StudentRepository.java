@@ -11,4 +11,8 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
 @Query("select s from StudentEntity s where s.id in"
 		+ " (select m.student.id from MarkEntity m group by m.student.id having avg(m.mark) < :avgMark) ")
 	List<StudentEntity> getStudentsAvgMarkLess(double avgMark);
+
+@Query("select s from StudentEntity s where s.id in "
+		+ "(select m.student.id from MarkEntity m group by m.student.id having count(m.mark) < cast(:count as long))")
+List<StudentEntity> getStudentsMarksCountLess(int count);
 }
